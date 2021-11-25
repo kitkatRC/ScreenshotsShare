@@ -1,7 +1,6 @@
-package com.mrrun.screenshotsshare
+package com.mrrun.screenshotsshare.screenShotUtils
 
 import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.os.Build
 import android.util.DisplayMetrics

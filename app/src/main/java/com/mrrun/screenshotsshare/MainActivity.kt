@@ -4,8 +4,14 @@ import android.Manifest
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import pub.devrel.easypermissions.EasyPermissions
+
+import android.content.Intent
+
+import android.view.View
+import com.mrrun.screenshotsshare.screenShotUtils.ScreenShotFileObserverManager
+import com.mrrun.screenshotsshare.screenShotUtils.ScreenShotHelper
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,7 +21,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        ScreenShotHelper.get()
+            .setScreenShotListener { data -> Log.e(TAG, "ScreenShotHelper: $data") }//华为-荣耀
         requestPermissionsA()
     }
 
@@ -28,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         //判断有没有权限
         if (EasyPermissions.hasPermissions(this, *perms)) { // 如果有权限了, 就做你该做的事情
+            Log.e(TAG, "requestPermissionsA: ")
             /*val PATH: String =
                 Environment.getExternalStorageDirectory().path + File.separator + Environment.DIRECTORY_DCIM + File.separator + "Screenshots"
             ScreenShotFileObserver(PATH).startWatching()*/
@@ -57,32 +65,50 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAG, "onStart")
-        ScreenShotFileObserverManager.registerScreenShotFileObserver(object :
-            ScreenShotFileObserver.ScreenShotLister {
-            override fun finshScreenShot(path: String?) {
-                var secondBitmap =
-                    BitmapUtil.drawableToBitmap(this@MainActivity.getDrawable(R.mipmap.ic_launcher)!!)
-                Log.d(TAG, "finshScreenShot path = $path")
-                Log.d(TAG, "secondBitmap = $secondBitmap")
-                var bitmap = BitmapUtil.concatBitmap(
-                    this@MainActivity,
-                    path,
-                    secondBitmap
-                )
-                Log.d(TAG, "bitmap = $bitmap")
-                runOnUiThread { image.setImageBitmap(bitmap) }
-            }
-
-            override fun beganScreenShot(path: String?) {
-                Log.d(TAG, "beganScreenShot path = $path")
-            }
-        })
+        Log.e(TAG, "onStart")
+//        ScreenShotFileObserverManager.registerScreenShotFileObserver(object ://oppo -real me--小米
+//            ScreenShotFileObserver.ScreenShotLister {
+//            override fun finshScreenShot(path: String?) {
+//                var secondBitmap =
+//                    BitmapUtil.drawableToBitmap(this@MainActivity.getDrawable(R.mipmap.ic_launcher)!!)
+//                Log.e(TAG, "finshScreenShot path = $path")
+//                Log.e(TAG, "secondBitmap = $secondBitmap")
+////                var bitmap = BitmapUtil.concatBitmap(
+////                    this@MainActivity,
+////                    path,
+////                    secondBitmap
+////                )
+////                val imageContentUri = getImageContentUri(this@MainActivity, path!!)
+////                val bitmapFromUri = getBitmapFromUri(this@MainActivity, imageContentUri)
+////                Log.e(TAG, "bitmap = $imageContentUri")
+//                val file = File(path)
+//                val fromFile = Uri.fromFile(file)
+//                val function = {
+//                    tv_path.text = path
+//
+////                    image.setImageURI(fromFile)
+//                }
+//                runOnUiThread(function)
+//
+//            }
+//
+//            override fun beganScreenShot(path: String?) {
+//                val makeText = Toast.makeText(this@MainActivity, "正在截屏...", Toast.LENGTH_SHORT)
+//                makeText
+//                    .setGravity(Gravity.CENTER, 0, 0)
+//                makeText.show()
+//                Log.e(TAG, "beganScreenShot path = $path")
+//            }
+//        })
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(TAG, "onStop")
+        Log.e(TAG, "onStop")
         ScreenShotFileObserverManager.unregisteScreenShotFileObserver()
+    }
+
+    fun toNext(view: View) {
+        startActivity(Intent(this,NextActivity::class.java))
     }
 }

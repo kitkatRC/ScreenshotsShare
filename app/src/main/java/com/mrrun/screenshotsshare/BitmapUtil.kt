@@ -8,6 +8,7 @@ import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.Log
+import com.mrrun.screenshotsshare.screenShotUtils.ScreenUtil
 import java.io.File
 
 object BitmapUtil {

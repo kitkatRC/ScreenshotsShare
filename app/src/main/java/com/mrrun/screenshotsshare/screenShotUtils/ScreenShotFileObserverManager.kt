@@ -1,4 +1,4 @@
-package com.mrrun.screenshotsshare
+package com.mrrun.screenshotsshare.screenShotUtils
 
 import android.os.Environment
 import android.util.Log
